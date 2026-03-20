@@ -1,11 +1,18 @@
-const TodoList = ({ todos }) => {
+import TodoItem from "./TodoItem";
+
+function TodoList({ todos, deleteTodo, toggleTodo }) {
   return (
     <ul>
       {todos.map((todo) => (
-        <li key={todo.id}>{todo.value}</li>
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          deleteTodo={deleteTodo}
+          toggleTodo={toggleTodo}
+        />
       ))}
     </ul>
   );
-};
+}
 
 export default TodoList;

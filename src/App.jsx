@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TodoList from "./components/TodoList";
 
 function App() {
   const [input, setInput] = useState("");
@@ -6,6 +7,14 @@ function App() {
 
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    );
   };
 
   const handleAddTodo = () => {
@@ -21,14 +30,6 @@ function App() {
     setInput("");
   };
 
-  const toggleTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
-  };
-
   return (
     <div>
       <h1>Todo App</h1>
@@ -42,28 +43,7 @@ function App() {
 
       <button onClick={handleAddTodo}>추가</button>
 
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleTodo(todo.id)}
-            />
-
-            <span
-              style={{
-                textDecoration: todo.completed ? "line-through" : "none",
-                marginRight: "8px",
-              }}
-            >
-              {todo.value}
-            </span>
-
-            <button onClick={() => deleteTodo(todo.id)}>삭제</button>
-          </li>
-        ))}
-      </ul>
+      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
     </div>
   );
 }
