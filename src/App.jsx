@@ -1,9 +1,19 @@
 import { useState } from "react";
+import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
 function App() {
-  const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
+
+  const addTodo = (value) => {
+    const newTodo = {
+      id: Date.now(),
+      value,
+      completed: false,
+    };
+
+    setTodos([...todos, newTodo]);
+  };
 
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
@@ -17,31 +27,11 @@ function App() {
     );
   };
 
-  const handleAddTodo = () => {
-    if (input.trim() === "") return;
-
-    const newTodo = {
-      id: Date.now(),
-      value: input,
-      completed: false,
-    };
-
-    setTodos([...todos, newTodo]);
-    setInput("");
-  };
-
   return (
     <div>
       <h1>Todo App</h1>
 
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="할 일을 입력하세요"
-      />
-
-      <button onClick={handleAddTodo}>추가</button>
+      <TodoForm addTodo={addTodo} />
 
       <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
     </div>
